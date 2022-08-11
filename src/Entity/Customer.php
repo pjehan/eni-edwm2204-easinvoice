@@ -6,6 +6,7 @@ use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Customer
 {
     #[ORM\Id]
@@ -61,5 +62,11 @@ class Customer
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        $this->setCreatedAt(new \DateTimeImmutable());
     }
 }
