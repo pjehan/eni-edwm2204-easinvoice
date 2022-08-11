@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client n°{{ id }} {{ parent() }}{% endblock %}
+{% block title %}{{ customer.name }} {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>{{ 'Client n°' ~ id }}</h1>
+    <h1>{{ customer.name }}</h1>
+    <p>Date de création : {{ customer.createdAt|date('d/m/Y') }}</p>
 {% endblock %}
 
