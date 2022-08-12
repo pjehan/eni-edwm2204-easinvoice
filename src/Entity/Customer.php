@@ -15,13 +15,13 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $name = null; // HTML : input text
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $logo = null;
+    private ?string $logo = null; // HTML : input text --> input file
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null; // HTML : input date
 
     public function getId(): ?int
     {
