@@ -104,4 +104,9 @@ class Project
     {
         $this->setCreatedAt(new \DateTimeImmutable());
     }
+
+    public function __toString(): string
+    {
+        return $this->getTitle();
+    }
 }

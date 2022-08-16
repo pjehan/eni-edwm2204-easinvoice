@@ -23,6 +23,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ app.request.get('_route') == 'app_project_index' ? 'active' : '' }}" href="{{ path('app_project_index') }}">
+                            Projets
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ app.request.get('_route') == 'contact' ? 'active' : '' }}" href="{{ path('contact') }}">
                             Contact
                         </a>
