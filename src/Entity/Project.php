@@ -29,9 +29,13 @@ class Project
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Document::class)]
+    private Collection $documents;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,6 +101,54 @@ class Project
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Document>
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getProject() === $this) {
+                $document->setProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Filter documents list to only get the quotes
+     * @return Collection List of quotes
+     */
+    public function getQuotes(): Collection
+    {
+        return $this->getDocuments()->filter(fn($doc) => $doc instanceof Quote);
+    }
+
+    /**
+     * Filter documents list to only get the invoices
+     * @return Collection List of invoices
+     */
+    public function getInvoices(): Collection
+    {
+        return $this->getDocuments()->filter(fn($doc) => $doc instanceof Invoice);
     }
 
     #[ORM\PrePersist]
