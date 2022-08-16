@@ -1,22 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category{% endblock %}
+{% block title %}Catégorie {{ category.name }}{% endblock %}
 
 {% block body %}
-    <h1>Category</h1>
+    <h1>Catégorie {{ category.name }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ category.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ category.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {% if category.projects|length > 0 %}
+        <ul>
+            {% for project in category.projects %}
+                <li>{{ project.title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Cette catégorie n'a pas de projet !</p>
+    {% endif %}
 
     <a href="{{ path('app_category_index') }}">back to list</a>
 
