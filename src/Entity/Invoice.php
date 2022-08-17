@@ -17,6 +17,9 @@ class Invoice extends Document
     private ?\DateTimeImmutable $paidAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
+    private ?Project $project = null;
+
+    #[ORM\ManyToOne(inversedBy: 'invoices')]
     private ?Quote $quote = null;
 
     public function getId(): ?int
@@ -32,6 +35,18 @@ class Invoice extends Document
     public function setPaidAt(?\DateTimeImmutable $paidAt): self
     {
         $this->paidAt = $paidAt;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
 
         return $this;
     }

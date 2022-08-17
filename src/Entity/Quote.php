@@ -18,6 +18,9 @@ class Quote extends Document
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $validatedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'quotes')]
+    private ?Project $project = null;
+
     #[ORM\OneToMany(mappedBy: 'quote', targetEntity: Invoice::class)]
     private Collection $invoices;
 
@@ -39,6 +42,18 @@ class Quote extends Document
     public function setValidatedAt(?\DateTimeImmutable $validatedAt): self
     {
         $this->validatedAt = $validatedAt;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
 
         return $this;
     }

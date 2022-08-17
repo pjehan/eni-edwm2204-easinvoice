@@ -7,6 +7,7 @@ use App\Entity\Customer;
 use App\Entity\Project;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,6 +25,20 @@ class ProjectType extends AbstractType
                 'class' => Category::class,
                 'multiple' => true,
                 'expanded' => true
+            ])
+            ->add('quotes', CollectionType::class, [
+                'label' => false,
+                'entry_type' => QuoteType::class,
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true
+            ])
+            ->add('invoices', CollectionType::class, [
+                'label' => false,
+                'entry_type' => InvoiceType::class,
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true
             ])
         ;
     }

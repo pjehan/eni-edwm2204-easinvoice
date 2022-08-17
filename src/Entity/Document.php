@@ -20,9 +20,6 @@ class Document
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\ManyToOne(inversedBy: 'documents')]
-    private ?Project $project = null;
-
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
@@ -51,18 +48,6 @@ class Document
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getProject(): ?Project
-    {
-        return $this->project;
-    }
-
-    public function setProject(?Project $project): self
-    {
-        $this->project = $project;
 
         return $this;
     }

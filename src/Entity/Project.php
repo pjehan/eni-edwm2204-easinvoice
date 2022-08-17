@@ -29,13 +29,17 @@ class Project
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Document::class)]
-    private Collection $documents;
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Quote::class, cascade: ['persist'])]
+    private Collection $quotes;
+
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Invoice::class, cascade: ['persist'])]
+    private Collection $invoices;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-        $this->documents = new ArrayCollection();
+        $this->quotes = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,29 +108,29 @@ class Project
     }
 
     /**
-     * @return Collection<int, Document>
+     * @return Collection<int, Quote>
      */
-    public function getDocuments(): Collection
+    public function getQuotes(): Collection
     {
-        return $this->documents;
+        return $this->quotes;
     }
 
-    public function addDocument(Document $document): self
+    public function addQuote(Quote $quote): self
     {
-        if (!$this->documents->contains($document)) {
-            $this->documents->add($document);
-            $document->setProject($this);
+        if (!$this->quotes->contains($quote)) {
+            $this->quotes->add($quote);
+            $quote->setProject($this);
         }
 
         return $this;
     }
 
-    public function removeDocument(Document $document): self
+    public function removeQuote(Quote $quote): self
     {
-        if ($this->documents->removeElement($document)) {
+        if ($this->quotes->removeElement($quote)) {
             // set the owning side to null (unless already changed)
-            if ($document->getProject() === $this) {
-                $document->setProject(null);
+            if ($quote->getProject() === $this) {
+                $quote->setProject(null);
             }
         }
 
@@ -134,21 +138,33 @@ class Project
     }
 
     /**
-     * Filter documents list to only get the quotes
-     * @return Collection List of quotes
-     */
-    public function getQuotes(): Collection
-    {
-        return $this->getDocuments()->filter(fn($doc) => $doc instanceof Quote);
-    }
-
-    /**
-     * Filter documents list to only get the invoices
-     * @return Collection List of invoices
+     * @return Collection<int, Invoice>
      */
     public function getInvoices(): Collection
     {
-        return $this->getDocuments()->filter(fn($doc) => $doc instanceof Invoice);
+        return $this->invoices;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices->add($invoice);
+            $invoice->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoices->removeElement($invoice)) {
+            // set the owning side to null (unless already changed)
+            if ($invoice->getProject() === $this) {
+                $invoice->setProject(null);
+            }
+        }
+
+        return $this;
     }
 
     #[ORM\PrePersist]

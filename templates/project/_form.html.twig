@@ -1,4 +1,52 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div {{ stimulus_controller('project-form') }}>
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.customer) }}
+        {{ form_row(form.categories) }}
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Quotes</h2>
+                <button type="button" class="btn btn-primary" {{ stimulus_action('project-form', 'addQuote') }}>New Quote</button>
+                <div class="row mt-1"
+                     data-index="{{ form.quotes|length > 0 ? form.quotes|last.vars.name + 1 : 0 }}"
+                     data-prototype="{{ form_widget(form.quotes.vars.prototype)|e('html_attr') }}"
+                        {{ stimulus_target('project_form', 'quotes') }}
+                >
+                    {% for quote in form.quotes %}
+                        <div id="{{ 'quote-' ~ quote.vars.id }}" class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{ form_widget(quote) }}
+                                    <button type="button" class="btn btn-danger" {{ stimulus_action('project-form', 'removeQuote', 'click', { id: quote.vars.id }) }}>Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2>Invoices</h2>
+                <button type="button" class="btn btn-primary" {{ stimulus_action('project-form', 'addInvoice') }}>New Invoice</button>
+                <div class="row mt-1"
+                     data-index="{{ form.invoices|length > 0 ? form.invoices|last.vars.name + 1 : 0 }}"
+                     data-prototype="{{ form_widget(form.invoices.vars.prototype)|e('html_attr') }}"
+                        {{ stimulus_target('project_form', 'invoices') }}
+                >
+                    {% for invoice in form.invoices %}
+                        <div id="{{ 'invoice-' ~ invoice.vars.id }}" class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{ form_widget(invoice) }}
+                                    <button type="button" class="btn btn-danger" {{ stimulus_action('project-form', 'removeInvoices', 'click', { id: invoice.vars.id }) }}>Supprimer</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+</div>
