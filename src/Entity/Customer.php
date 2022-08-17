@@ -28,6 +28,10 @@ class Customer
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Project::class, orphanRemoval: true)]
     private Collection $projects;
 
+    #[ORM\ManyToOne(inversedBy: 'customers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -108,5 +112,17 @@ class Customer
     public function prePersist(): void
     {
         $this->setCreatedAt(new \DateTimeImmutable());
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

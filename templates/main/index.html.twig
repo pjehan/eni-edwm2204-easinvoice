@@ -5,5 +5,5 @@
 {% block body %}
     <h1>Page d'accueil</h1>
 
-    <p>Bonjour {{ fullname }}</p>
+    <p>Bonjour {{ app.user ? app.user.email : 'Toto' }}</p>
 {% endblock %}

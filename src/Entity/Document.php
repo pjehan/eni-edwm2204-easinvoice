@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 #[ORM\DiscriminatorMap(['quote' => Quote::class, 'invoice' => Invoice::class])]
 #[ORM\HasLifecycleCallbacks]
-class Document
+abstract class Document
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
