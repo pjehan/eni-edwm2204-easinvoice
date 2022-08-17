@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,19 @@ class ProjectRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findProjectsByUser(User $user): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        $queryBuilder->innerJoin('p.customer', 'c');
+        $queryBuilder->innerJoin('c.user', 'u');
+        // $queryBuilder->where('u.id = :user_id');
+        $queryBuilder->where($queryBuilder->expr()->eq('u.id', ':user_id'));
+        $queryBuilder->setParameter('user_id', $user->getId());
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
 //    /**

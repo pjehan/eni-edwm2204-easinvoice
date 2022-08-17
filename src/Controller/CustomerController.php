@@ -23,7 +23,7 @@ class CustomerController extends AbstractController
      */
     public function index(CustomerRepository $customerRepository): Response
     {
-        $customers = $customerRepository->findBy([], ['name' => 'ASC']);
+        $customers = $customerRepository->findBy(['user' => $this->getUser()], ['name' => 'ASC']);
 
         return $this->render('customer/index.html.twig', [
             'customers' => $customers,
@@ -49,6 +49,7 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $customer->setUser($this->getUser());
             $customerRepository->add($customer, true);
 
             return $this->redirectToRoute('customer_index');
