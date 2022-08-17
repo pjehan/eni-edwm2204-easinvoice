@@ -13,26 +13,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ app.request.get('_route') == 'customer_index' ? 'active' : '' }}" href="{{ path('customer_index') }}">
-                            Clients
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ app.request.get('_route') == 'app_category_index' ? 'active' : '' }}" href="{{ path('app_category_index') }}">
-                            Catégories
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ app.request.get('_route') == 'app_project_index' ? 'active' : '' }}" href="{{ path('app_project_index') }}">
-                            Projets
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link {{ app.request.get('_route') == 'contact' ? 'active' : '' }}" href="{{ path('contact') }}">
                             Contact
                         </a>
                     </li>
                     {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'customer_index' ? 'active' : '' }}" href="{{ path('customer_index') }}">
+                                Clients
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'app_category_index' ? 'active' : '' }}" href="{{ path('app_category_index') }}">
+                                Catégories
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'app_project_index' ? 'active' : '' }}" href="{{ path('app_project_index') }}">
+                                Projets
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_logout') }}">
                                 Déconnexion
