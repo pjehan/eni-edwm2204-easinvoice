@@ -59,4 +59,11 @@ class CustomerController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    public function dropdown(CustomerRepository $customerRepository): Response
+    {
+        return $this->render('customer/_customer_dropdown.html.twig', [
+            'customers' => $customerRepository->findAll()
+        ]);
+    }
 }

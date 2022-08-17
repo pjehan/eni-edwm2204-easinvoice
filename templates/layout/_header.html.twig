@@ -18,10 +18,11 @@
                         </a>
                     </li>
                     {% if app.user %}
-                        <li class="nav-item">
-                            <a class="nav-link {{ app.request.get('_route') == 'customer_index' ? 'active' : '' }}" href="{{ path('customer_index') }}">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Clients
                             </a>
+                            {{ render(controller('App\\Controller\\CustomerController::dropdown')) }}
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ app.request.get('_route') == 'app_category_index' ? 'active' : '' }}" href="{{ path('app_category_index') }}">
