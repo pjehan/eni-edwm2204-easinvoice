@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Customer;
 use App\Repository\CustomerRepository;
+use App\Service\FileUploader;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,7 +43,7 @@ class CustomerController extends AbstractController
     /**
      * @Route("/create", name="customer_create")
      */
-    public function create(Request $request, CustomerRepository $customerRepository): Response
+    public function create(Request $request, CustomerRepository $customerRepository, FileUploader $fileUploader): Response
     {
         $customer = new Customer();
         $form = $this->createForm(CustomerType::class, $customer);
@@ -49,6 +51,14 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $logoFile */
+            $logoFile = $form->get('logo')->getData();
+
+            if ($logoFile) {
+                $logoFileName = $fileUploader->upload($logoFile);
+                $customer->setLogo($logoFileName);
+            }
+
             $customer->setUser($this->getUser());
             $customerRepository->add($customer, true);
 

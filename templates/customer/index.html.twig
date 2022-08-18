@@ -11,6 +11,9 @@
         {% for customer in customers %}
             <li>
                 <a href="{{ path('customer_show', {'id': customer.id}) }}">
+                    {% if customer.logo %}
+                        <img src="{{ upload_path ~ '/' ~ customer.logo }}" alt="{{ customer.name }}" class="customer-logo">
+                    {% endif %}
                     {{ customer.name }}
                 </a>
             </li>
